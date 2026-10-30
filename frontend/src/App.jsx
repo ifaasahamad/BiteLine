@@ -7,14 +7,21 @@ import StaffDashboard from "./pages/StaffDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 
 import ProtectedRoute from "./components/ProtectedRoute";
+import Navbar from "./components/Navbar";
 
 function Home() {
-  return <h1>BiteLine Home</h1>;
+  return (
+    <div>
+      <h1>BiteLine</h1>
+      <p>Pre-order your food and track your queue without waiting in line.</p>
+    </div>
+  );
 }
 
 function App() {
   return (
     <BrowserRouter>
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
 
