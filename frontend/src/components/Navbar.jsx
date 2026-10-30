@@ -33,7 +33,10 @@ function Navbar() {
         )}
 
         {user?.role === "admin" && (
-          <Link to="/admin">Admin Dashboard</Link>
+          <>
+            <Link to="/admin">Admin Dashboard</Link>
+            <Link to="/admin/menu">Manage Menu</Link>
+          </>
         )}
 
         {user && <button onClick={handleLogout}>Logout</button>}

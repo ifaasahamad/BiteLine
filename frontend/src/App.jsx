@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import CustomerDashboard from "./pages/CustomerDashboard";
 import StaffDashboard from "./pages/StaffDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
+import AdminMenu from "./pages/AdminMenu";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
@@ -51,6 +52,14 @@ function App() {
           element={
             <ProtectedRoute roles={["admin"]}>
               <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/menu"
+          element={
+            <ProtectedRoute roles={["admin"]}>
+              <AdminMenu />
             </ProtectedRoute>
           }
         />
