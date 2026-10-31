@@ -90,9 +90,10 @@ try {
   await page.getByText("Vegetable Rice added to cart", { exact: false }).waitFor();
   await page.getByRole("link", { name: "View cart (2)" }).click();
   await page.getByRole("heading", { name: "Your Cart" }).waitFor();
-  assert.ok(await page.getByText("Quantity: 2", { exact: true }).count());
+  assert.equal(await page.locator(".quantity-value").textContent(), "2");
   await page.reload();
-  await page.getByText("Quantity: 2", { exact: true }).waitFor();
+  await page.locator(".quantity-value").waitFor();
+  assert.equal(await page.locator(".quantity-value").textContent(), "2");
   console.log("PASS search + category + empty results, no filter refetch, duplicate add, cart route and persistence");
 
   menuMode = "error"; await page.goto(base + "/menu"); await page.getByRole("alert").waitFor();
