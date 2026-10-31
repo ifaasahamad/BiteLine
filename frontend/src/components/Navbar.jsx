@@ -1,11 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useCart } from "../context/CartContext";
 
 function Navbar() {
   const { user, logout } = useAuth();
+  const { cartItems, clearCart } = useCart();
+  const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const navigate = useNavigate();
 
   const handleLogout = () => {
+    clearCart();
     logout();
     navigate("/login");
   };
@@ -25,7 +29,12 @@ function Navbar() {
         )}
 
         {user?.role === "customer" && (
-          <Link to="/customer">Customer Dashboard</Link>
+          <>
+            <Link to="/customer">Customer Dashboard</Link>
+            <Link to="/menu">Menu</Link>
+            <Link to="/cart">Cart ({cartCount})</Link>
+            <Link to="/orders">My Orders</Link>
+          </>
         )}
 
         {user?.role === "staff" && (
