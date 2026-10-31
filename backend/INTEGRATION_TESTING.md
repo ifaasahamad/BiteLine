@@ -142,3 +142,44 @@ complete validation/error matrices, restart durability or automated real-browser
 multi-role workflows yet. The existing intercepted browser suites remain separate.
 No real-database or full-stack pass should be claimed until the commands actually
 run against a configured test MongoDB.
+
+## Real Staff/Admin browser regression
+
+From the project root, after `npm.cmd ci --prefix backend` and
+`npm.cmd ci --prefix frontend` on a fresh checkout:
+
+```powershell
+npm.cmd --prefix frontend run test:e2e:roles
+```
+
+The local integration configuration above and a working test MongoDB are required.
+The script starts and stops the real test API on port 5001 and Vite integration
+frontend on port 5174 automatically. Do not start the interactive servers at the
+same time. Chrome must be installed; Playwright 1.64.1 is a pinned frontend dev
+dependency. No API responses or database operations are mocked.
+
+The test logs in through the actual UI in separate customer, staff and admin browser
+contexts. It checks all four staff preparation transitions, customer refreshes,
+reload persistence, second-staff visibility, real admin statistics, customer/order
+views, category/menu create/edit/delete, availability, invalid input and denied
+operations. Important mutations are independently read from MongoDB. Cleanup is
+guarded by the existing test-namespace check and removes only named suite records
+and the integration fixtures. It does not drop databases.
+
+Run the existing regressions separately:
+
+```powershell
+npm.cmd --prefix backend run test:all
+npm.cmd --prefix frontend run build
+npm.cmd --prefix frontend run lint
+npm.cmd --prefix frontend test
+```
+
+The older `frontend/tests/*.browser.mjs` files remain individual browser regression
+commands. They use intercepted responses and are not evidence of real database
+integration. `staff-admin.real.browser.mjs` is the new no-interception suite.
+
+Failures print a safe named checkpoint rather than typed passwords, JWTs or raw
+driver/browser diagnostics. The suite is intentionally desktop Chrome only; it
+does not add staff-account management, admin status-edit controls, or concurrency
+and token-collision testing.

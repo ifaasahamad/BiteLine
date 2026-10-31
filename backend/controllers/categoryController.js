@@ -17,13 +17,14 @@ const createCategory = async (req, res) => {
   try {
     const { name, description } = req.body;
 
-    if (!name) {
+    if (typeof name !== "string" || !name.trim()) {
       return res.status(400).json({
         message: "Category name is required",
       });
     }
 
-    const existingCategory = await Category.findOne({ name });
+    const normalizedName = name.trim();
+    const existingCategory = await Category.findOne({ name: normalizedName });
 
     if (existingCategory) {
       return res.status(400).json({
@@ -32,7 +33,7 @@ const createCategory = async (req, res) => {
     }
 
     const category = await Category.create({
-      name,
+      name: normalizedName,
       description,
     });
 
@@ -41,8 +42,8 @@ const createCategory = async (req, res) => {
       category,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Failed to create category",
+    res.status(error.name === "ValidationError" || error.code === 11000 ? 400 : 500).json({
+      message: error.code === 11000 ? "Category already exists" : "Failed to create category",
       error: error.message,
     });
   }
@@ -51,6 +52,10 @@ const createCategory = async (req, res) => {
 const updateCategory = async (req, res) => {
   try {
     const { name, description } = req.body;
+
+    if (name !== undefined && (typeof name !== "string" || !name.trim())) {
+      return res.status(400).json({ message: "Category name is required" });
+    }
 
     const category = await Category.findById(req.params.id);
 
@@ -61,7 +66,7 @@ const updateCategory = async (req, res) => {
     }
 
     if (name !== undefined) {
-      category.name = name;
+      category.name = name.trim();
     }
 
     if (description !== undefined) {
@@ -75,8 +80,8 @@ const updateCategory = async (req, res) => {
       category,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Failed to update category",
+    res.status(error.name === "ValidationError" || error.name === "CastError" || error.code === 11000 ? 400 : 500).json({
+      message: error.code === 11000 ? "Category already exists" : "Failed to update category",
       error: error.message,
     });
   }

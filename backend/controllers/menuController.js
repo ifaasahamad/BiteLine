@@ -66,7 +66,7 @@ const createMenuItem = async (req, res) => {
       item: populatedItem,
     });
   } catch (error) {
-    res.status(500).json({
+    res.status(error.name === "ValidationError" || error.name === "CastError" ? 400 : 500).json({
       message: "Failed to create menu item",
       error: error.message,
     });
@@ -110,7 +110,7 @@ const updateMenuItem = async (req, res) => {
       item: populatedItem,
     });
   } catch (error) {
-    res.status(500).json({
+    res.status(error.name === "ValidationError" || error.name === "CastError" ? 400 : 500).json({
       message: "Failed to update menu item",
       error: error.message,
     });

@@ -183,8 +183,9 @@ function AdminMenu() {
 
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Name</label>
+          <label htmlFor="admin-menu-name">Name</label>
           <input
+            id="admin-menu-name"
             name="name"
             value={formData.name}
             onChange={handleChange}
@@ -193,8 +194,9 @@ function AdminMenu() {
         </div>
 
         <div>
-          <label>Description</label>
+          <label htmlFor="admin-menu-description">Description</label>
           <input
+            id="admin-menu-description"
             name="description"
             value={formData.description}
             onChange={handleChange}
@@ -202,8 +204,9 @@ function AdminMenu() {
         </div>
 
         <div>
-          <label>Price</label>
+          <label htmlFor="admin-menu-price">Price</label>
           <input
+            id="admin-menu-price"
             type="number"
             min="0"
             step="0.01"
@@ -215,8 +218,9 @@ function AdminMenu() {
         </div>
 
         <div>
-          <label>Category</label>
+          <label htmlFor="admin-menu-category">Category</label>
           <select
+            id="admin-menu-category"
             name="category"
             value={formData.category}
             onChange={handleChange}
@@ -233,8 +237,9 @@ function AdminMenu() {
         </div>
 
         <div>
-          <label>Image URL</label>
+          <label htmlFor="admin-menu-image">Image URL</label>
           <input
+            id="admin-menu-image"
             name="image"
             value={formData.image}
             onChange={handleChange}
