@@ -1,4 +1,6 @@
 node_modules/
 .env
+.env.*
+!.env.integration.example
 dist/
 build/
