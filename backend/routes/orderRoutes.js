@@ -3,6 +3,8 @@ const express = require("express");
 const {
   createOrder,
   getMyOrders,
+  getAllOrders,
+  updateOrderStatus,
 } = require("../controllers/orderController");
 
 const {
@@ -24,6 +26,20 @@ router.get(
   protect,
   authorizeRoles("customer"),
   getMyOrders
+);
+
+router.get(
+  "/",
+  protect,
+  authorizeRoles("staff", "admin"),
+  getAllOrders
+);
+
+router.put(
+  "/:id/status",
+  protect,
+  authorizeRoles("staff", "admin"),
+  updateOrderStatus
 );
 
 module.exports = router;
