@@ -441,3 +441,177 @@ http://localhost:5173
 ### Admin Dashboard
 
 ![Admin Dashboard](screenshots/admin-dashboard.png)
+
+## Testing
+
+BiteLine was tested at multiple levels to verify frontend behaviour, backend functionality, database integration and role-based workflows.
+
+### Test Coverage
+
+The project includes:
+
+- Frontend tests
+- Backend tests
+- MongoDB integration tests
+- Browser-based end-to-end tests
+- Responsive layout tests
+- Role-based authorization tests
+
+### Verified Workflows
+
+The following workflows were tested successfully:
+
+#### Customer
+
+```text
+Register
+→ Login
+→ Browse Menu
+→ Search / Filter
+→ Add to Cart
+→ Update Quantity
+→ Checkout
+→ Receive Collection Token
+→ View My Orders
+→ Track Order Status
+```
+
+#### Staff
+
+```text
+Login
+→ View Incoming Orders
+→ View Order Details
+→ Accept Order
+→ Preparing
+→ Ready
+→ Completed
+```
+
+#### Admin
+
+```text
+Login
+→ View Dashboard
+→ Manage Categories
+→ Manage Menu Items
+→ View Customers
+→ View Orders
+→ Verify Statistics
+```
+
+### Validation Results
+
+The project successfully passed:
+
+- Backend mocked tests
+- Integration isolation checks
+- Real MongoDB integration scenarios
+- Frontend tests
+- Browser-based role tests
+- Production build
+- Lint checks
+
+The application was also verified using the actual Express backend and MongoDB database without mocking API responses in the final role-based browser tests.
+
+## Security Features
+
+BiteLine includes several security mechanisms:
+
+- Password hashing using bcrypt
+- JWT-based authentication
+- Role-based authorization
+- Protected frontend routes
+- Protected backend API endpoints
+- Database-backed role verification
+- Restricted customer data access
+- Environment variables for sensitive configuration
+
+Users are assigned one of three roles:
+
+```text
+customer
+staff
+admin
+```
+
+Each role can access only the functionality intended for that role.
+
+## System Workflow
+
+The main BiteLine workflow is:
+
+```text
+Customer
+   ↓
+Browse Menu
+   ↓
+Add Items to Cart
+   ↓
+Checkout
+   ↓
+Order Created
+   ↓
+Collection Token Generated
+   ↓
+Staff Receives Order
+   ↓
+Pending
+   ↓
+Accepted
+   ↓
+Preparing
+   ↓
+Ready
+   ↓
+Completed
+   ↓
+Customer Collects Order
+```
+
+Customers can refresh My Orders to view the latest preparation status.
+
+## Known Limitations
+
+The current version of BiteLine has the following limitations:
+
+- Order status updates are refreshed manually by the customer.
+- Real-time WebSocket notifications are not implemented.
+- Online payment processing is not included.
+- Staff account management is not included in the current Admin interface.
+- Queue-position and estimated waiting-time calculations are not implemented.
+- Advanced concurrency testing was outside the scope of this academic project.
+
+These limitations do not affect the core ordering and queue-tracking workflow.
+
+## Future Improvements
+
+Possible future improvements include:
+
+- Real-time order updates using WebSockets
+- Push notifications when an order is ready
+- Online payment integration
+- Estimated preparation time
+- Queue position calculation
+- Staff account management
+- Sales reports and advanced analytics
+- Food image upload support
+- Deployment to a production cloud environment
+
+## Project Purpose
+
+BiteLine was developed as an academic full-stack software project to demonstrate understanding of:
+
+- Frontend development
+- Backend development
+- REST APIs
+- Database integration
+- Authentication
+- Authorization
+- CRUD operations
+- Responsive design
+- Software testing
+
+## Contributors
+
+Developed as part of a university software development project.
