@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
+import { useAuth } from "../context/AuthContext";
 
 function AdminMenu() {
   const [categories, setCategories] = useState([]);
@@ -17,9 +18,12 @@ function AdminMenu() {
 
   const [message, setMessage] = useState("");
 
-  const token = localStorage.getItem("token");
+  const { token } = useAuth();
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
 
   const loadData = async () => {
+    setLoading(true);
     try {
       const [categoriesResponse, menuResponse] = await Promise.all([
         api.get("/categories"),
@@ -28,12 +32,16 @@ function AdminMenu() {
 
       setCategories(categoriesResponse.data);
       setMenuItems(menuResponse.data);
-    } catch (error) {
+    } catch {
       setMessage("Failed to load menu data");
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
+    // Load existing menu and category data on mount.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     loadData();
   }, []);
 
@@ -61,6 +69,8 @@ function AdminMenu() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (saving) return;
+    setSaving(true);
 
     try {
       const payload = {
@@ -105,16 +115,20 @@ function AdminMenu() {
 
       setEditingItemId(null);
 
-      loadData();
+      await loadData();
     } catch (error) {
       setMessage(
         error.response?.data?.message ||
           "Failed to save menu item"
       );
+    } finally {
+      setSaving(false);
     }
   };
 
   const handleToggleAvailability = async (item) => {
+    if (saving) return;
+    setSaving(true);
     try {
       await api.put(
         `/menu/${item._id}`,
@@ -128,16 +142,20 @@ function AdminMenu() {
         }
       );
 
-      loadData();
+      await loadData();
     } catch (error) {
       setMessage(
         error.response?.data?.message ||
           "Failed to update availability"
       );
+    } finally {
+      setSaving(false);
     }
   };
 
   const handleDelete = async (id) => {
+    if (saving || !window.confirm("Delete this menu item?")) return;
+    setSaving(true);
     try {
       await api.delete(`/menu/${id}`, {
         headers: {
@@ -146,11 +164,13 @@ function AdminMenu() {
       });
 
       setMessage("Menu item deleted successfully");
-      loadData();
+      await loadData();
     } catch (error) {
       setMessage(
         error.response?.data?.message || "Failed to delete menu item"
       );
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -158,7 +178,8 @@ function AdminMenu() {
     <div>
       <h1>Admin Menu Management</h1>
 
-      <h2>Add Menu Item</h2>
+      <h2>{editingItemId ? "Edit Menu Item" : "Add Menu Item"}</h2>
+      {loading && <p role="status">Loading menu data…</p>}
 
       <form onSubmit={handleSubmit}>
         <div>
@@ -184,6 +205,8 @@ function AdminMenu() {
           <label>Price</label>
           <input
             type="number"
+            min="0"
+            step="0.01"
             name="price"
             value={formData.price}
             onChange={handleChange}
@@ -230,16 +253,17 @@ function AdminMenu() {
           </label>
         </div>
 
-        <button type="submit">
+        <button type="submit" disabled={saving || loading}>
           {editingItemId ? "Update Menu Item" : "Add Menu Item"}
         </button>
       </form>
 
-      {message && <p>{message}</p>}
+      {message && <p role="status">{message}</p>}
 
       <hr />
 
       <h2>Current Menu</h2>
+      {!loading && !menuItems.length && <p>No menu items yet.</p>}
 
       {menuItems.map((item) => (
         <div key={item._id}>
@@ -259,15 +283,15 @@ function AdminMenu() {
             Status: {item.available ? "Available" : "Unavailable"}
           </p>
 
-          <button onClick={() => handleEdit(item)}>
+          <button disabled={saving} onClick={() => handleEdit(item)}>
             Edit
           </button>
 
-          <button onClick={() => handleToggleAvailability(item)}>
+          <button disabled={saving} onClick={() => handleToggleAvailability(item)}>
             {item.available ? "Mark Unavailable" : "Mark Available"}
           </button>
 
-          <button onClick={() => handleDelete(item._id)}>
+          <button disabled={saving} onClick={() => handleDelete(item._id)}>
             Delete
           </button>
 
