@@ -1,0 +1,24 @@
+.site-header { background: var(--surface); border-bottom: 1px solid var(--border); position: relative; z-index: 20; }
+.site-nav { min-height: 88px; display: flex; justify-content: space-between; align-items: center; gap: 24px; position: relative; }
+.brand { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; color: var(--forest); font-size: 25px; font-weight: 800; letter-spacing: -1px; line-height: 1.1; flex-shrink: 0; }
+.brand-mark { display: grid; place-content: center; position: relative; width: 40px; height: 44px; background: var(--forest); color: var(--ivory); border-radius: 14px 14px 14px 3px; font-size: 32px; }
+.brand-mark span { color: var(--amber); position: absolute; right: 4px; top: 1px; font-size: 22px; }
+.brand-caption { display: block; font-size: 8px; letter-spacing: 1.1px; margin-top: 6px; color: var(--muted); font-weight: 700; }
+.nav-links { display: flex; align-items: center; gap: 6px; }
+.nav-link { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 44px; padding: 10px 13px; color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 650; border-radius: var(--radius-sm); }
+.nav-link:hover, .nav-link.is-active { background: var(--sage); color: var(--forest); }
+.nav-link.nav-register { background: var(--forest); color: white; margin-left: 8px; }
+.nav-logout { margin-left: 10px; background: transparent; font-size: 14px; }
+.cart-count { background: var(--forest); color: white; border-radius: 20px; min-width: 23px; height: 23px; display: inline-grid; place-content: center; font-size: 11px; }
+.nav-toggle { display: none; gap: 8px; align-items: center; font-size: 13px; }
+.nav-session { color: var(--muted); font-size: 13px; }
+.skip-link { position: absolute; top: -100px; left: 16px; padding: 12px 20px; background: var(--forest); color: white; z-index: 30; }
+.skip-link:focus { top: 8px; }
+@media(max-width: 900px) {
+  .site-nav { min-height: 76px; flex-wrap: wrap; gap: 0; }
+  .nav-toggle { display: inline-flex; }
+  .nav-links { display: none; width: 100%; align-items: stretch; padding: 14px 0 20px; border-top: 1px solid var(--border); margin-top: 14px; }
+  .nav-links.is-open { display: flex; flex-direction: column; gap: 5px; }
+  .nav-link { justify-content: flex-start; min-height: 46px; }
+  .nav-logout, .nav-link.nav-register { margin-left: 0; }
+}

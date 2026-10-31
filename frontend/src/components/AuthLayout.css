@@ -1,0 +1,21 @@
+.app-content:has(> .auth-page) { display: flex; flex-direction: column; }
+.auth-page { flex: 1; display: grid; place-items: center; width: 100%; padding: clamp(24px, 5vh, 56px) 16px; background: var(--ivory); }
+.auth-card { width: 100%; max-width: 480px; min-width: 0; padding: 32px; border: 1px solid var(--border); border-radius: 20px; background: var(--surface); box-shadow: var(--shadow); }
+.auth-heading { text-align: center; margin-bottom: 28px; }
+.auth-brand { display: inline-grid; place-items: center; position: relative; background: var(--forest); color: var(--ivory); font-size: 30px; font-weight: 800; line-height: 1; width: 44px; height: 48px; border-radius: 14px 14px 14px 3px; margin-bottom: 20px; }
+.auth-brand span { position: absolute; color: var(--amber); right: 4px; top: 0; font-size: 22px; }
+.auth-heading .eyebrow { margin-bottom: 8px; font-size: 10px; }
+.auth-heading h1 { font-size: clamp(1.65rem, 4vw, 2rem); margin: 0 0 12px; letter-spacing: -.035em; }
+.auth-heading p:last-child { margin: 0; font-size: 14px; line-height: 1.7; }
+.auth-form { display: grid; gap: 20px; }
+.auth-form > div { min-width: 0; }
+.auth-form label { margin-bottom: 7px; }
+.auth-form input { min-height: 48px; font-size: 16px; }
+.auth-form .auth-submit { width: 100%; min-height: 48px; background: var(--forest); color: white; border-color: var(--forest); margin-top: 4px; }
+.auth-form .auth-submit:hover:not(:disabled) { background: var(--forest-hover); }
+.auth-form .message { margin: 0; font-size: 14px; }
+.auth-hint { display: block; color: var(--muted); font-size: 12px; margin-top: 6px; }
+.auth-footer { text-align: center; margin-top: 24px; border-top: 1px solid var(--border); padding-top: 22px; font-size: 14px; color: var(--muted); }
+.auth-footer p { margin: 0; }.auth-footer a { font-weight: 700; }
+.auth-session { text-align: center; color: var(--muted); padding: 24px 0; }
+@media(max-width: 480px) { .auth-card { padding: 26px 20px; border-radius: 16px; }.auth-page { padding: 24px 16px; }.auth-heading { margin-bottom: 24px; } }

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../services/api";
 import { useAuth } from "../context/AuthContext";
+import AuthLayout from "../components/AuthLayout";
 
 function Register() {
   const navigate = useNavigate();
@@ -45,13 +46,13 @@ function Register() {
   };
 
   return (
-    <div>
-      <h1>Create Account</h1>
-
-      <form onSubmit={handleSubmit}>
+    <AuthLayout title="Create Account" description="Good food, less waiting. Join BiteLine to get started." footer={<p>Already have an account? <Link to="/login">Login</Link></p>}>
+      <form className="auth-form" onSubmit={handleSubmit} aria-busy={loading}>
         <div>
-          <label>Name</label>
+          <label htmlFor="register-name">Name</label>
           <input
+            id="register-name"
+            autoComplete="name"
             type="text"
             name="name"
             value={formData.name}
@@ -61,8 +62,10 @@ function Register() {
         </div>
 
         <div>
-          <label>Email</label>
+          <label htmlFor="register-email">Email</label>
           <input
+            id="register-email"
+            autoComplete="email"
             type="email"
             name="email"
             value={formData.email}
@@ -72,8 +75,11 @@ function Register() {
         </div>
 
         <div>
-          <label>Password</label>
+          <label htmlFor="register-password">Password</label>
           <input
+            id="register-password"
+            autoComplete="new-password"
+            aria-describedby="password-hint"
             type="password"
             name="password"
             value={formData.password}
@@ -81,19 +87,17 @@ function Register() {
             minLength="6"
             required
           />
+          <small className="auth-hint" id="password-hint">Use at least 6 characters.</small>
         </div>
 
-        {message && <p>{message}</p>}
+        {message && <p className="message message-error" role="alert">{message}</p>}
 
-        <button type="submit" disabled={loading}>
+        <button className="auth-submit" type="submit" disabled={loading}>
           {loading ? "Creating account..." : "Register"}
         </button>
       </form>
 
-      <p>
-        Already have an account? <Link to="/login">Login</Link>
-      </p>
-    </div>
+    </AuthLayout>
   );
 }
 

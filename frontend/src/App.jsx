@@ -13,20 +13,13 @@ import MyOrders from "./pages/MyOrders";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
-
-function Home() {
-  return (
-    <div>
-      <h1>BiteLine</h1>
-      <p>Pre-order your food and track your queue without waiting in line.</p>
-    </div>
-  );
-}
+import Home from "./pages/Home";
 
 function App() {
   return (
     <BrowserRouter>
       <Navbar />
+      <div id="main-content" className="app-content" tabIndex={-1}>
       <Routes>
         <Route path="/" element={<Home />} />
 
@@ -100,6 +93,7 @@ function App() {
           }
         />
       </Routes>
+      </div>
     </BrowserRouter>
   );
 }

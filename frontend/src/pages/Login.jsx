@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../services/api";
 import { useAuth } from "../context/AuthContext";
+import AuthLayout from "../components/AuthLayout";
 
 function Login() {
   const navigate = useNavigate();
@@ -52,13 +53,13 @@ function Login() {
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-
-      <form onSubmit={handleSubmit}>
+    <AuthLayout title="Login" description="Welcome back. Your next meal is a few clicks away." footer={<p>Don't have an account? <Link to="/register">Register</Link></p>}>
+      <form className="auth-form" onSubmit={handleSubmit} aria-busy={loading}>
         <div>
-          <label>Email</label>
+          <label htmlFor="login-email">Email</label>
           <input
+            id="login-email"
+            autoComplete="email"
             type="email"
             name="email"
             value={formData.email}
@@ -68,8 +69,10 @@ function Login() {
         </div>
 
         <div>
-          <label>Password</label>
+          <label htmlFor="login-password">Password</label>
           <input
+            id="login-password"
+            autoComplete="current-password"
             type="password"
             name="password"
             value={formData.password}
@@ -78,17 +81,14 @@ function Login() {
           />
         </div>
 
-        {message && <p>{message}</p>}
+        {message && <p className="message message-error" role="alert">{message}</p>}
 
-        <button type="submit" disabled={loading}>
+        <button className="auth-submit" type="submit" disabled={loading}>
           {loading ? "Logging in..." : "Login"}
         </button>
       </form>
 
-      <p>
-        Don't have an account? <Link to="/register">Register</Link>
-      </p>
-    </div>
+    </AuthLayout>
   );
 }
 

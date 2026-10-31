@@ -24,6 +24,8 @@ function MyOrders() {
   };
 
   useEffect(() => {
+    // Hydrate order history from the API on mount; manual refresh shares this loader.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     loadOrders();
   }, []);
 
